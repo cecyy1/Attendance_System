@@ -44,6 +44,42 @@ def add_employee():
 
     return render_template('add_employee.html')
 
+#edit employees 
+@app.route('/edit-employee/<int:employee_id>', methods=['GET', 'POST'])
+def edit_employee(employee_id):
+     if request.method == 'POST':
+        first_name=request.form['first_name']
+        last_name=request.form['last_name']
+        department=request.form['department']
+        email=request.form['email']
+        hire_date=request.form['hire_date']
+
+        conn = get_db_connection()
+        cursor=conn.cursor()
+        cursor.execute("UPDATE employees SET first_name=%s, last_name=%s,"
+        "department=%s, email=%s, hire_date=%s WHERE employee_id=%s",(first_name, last_name, department, email, hire_date, employee_id))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('employee_list'))
+     #GET -get request to load the existing employee info
+     conn=get_db_connection()
+     cursor=conn.cursor()
+     cursor.execute("SELECT * FROM employees WHERE employee_id = %s",(employee_id,))
+     employee=cursor.fetchone()
+     conn.close()
+     return render_template('edit_employee.html', employee=employee)
+
+
+#delete employees
+@app.route('/delete-employee/<int:employee_id>', methods=['POST'])
+def delete_employee(employee_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM employees WHERE employee_id=%s", (employee_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('employee_list'))
+
 
 if __name__=='__main__':
     app.run(debug=True)

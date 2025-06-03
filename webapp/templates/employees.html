@@ -36,9 +36,12 @@
                         <!-- Edit button -->
                         <a href="/edit-employee/{{ emp[0] }}" class="btn btn-warning btn-sm">Edit</a>
                         <!-- Delete button -->
-                        <a href="/delete-employee/{{ emp[0] }}" class="btn btn-danger btn-sm"
-                           onclick="return confirm('Are you sure you want to delete this employee?');">
-                           Delete
+                        <form action="/delete-employee/{{ emp[0] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this employee?');">
+                                Delete
+                            </button>
+                        </form>                        
                         </a>
                     </td>
                 </tr>
