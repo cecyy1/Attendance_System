@@ -7,7 +7,12 @@ app=Flask(__name__)
 
 @app.route('/')
 def home():
-    return "<h1>Welcome to Attendance System</h1><p>Go to <a href='/employees'>Employees</a> to see the employee list.</p>"
+    return """
+    <h1>Welcome to Attendance System</h1>
+    <p>Go to <a href='/employees'>Employees</a> to see the employee list.</p>
+    <p>Go to <a href='/attendance'>Attendance</a> to see attendance records.</p>
+    <p>Go to <a href='/events'>Events</a> to see events.</p>
+    """
 
 
 
@@ -80,6 +85,59 @@ def delete_employee(employee_id):
     conn.close()
     return redirect(url_for('employee_list'))
 
+#Attendance list Page 
+@app.route("/attendance")
+def attendance_list():
+    sort_by = request.args.get('sort', 'timestamp')  # default sort column
+    order = request.args.get('order', 'desc')        # default order
+
+    # Validate inputs
+    valid_columns = ['attendance_id', 'employee_id', 'event_id', 'attended', 'timestamp']
+    if sort_by not in valid_columns:
+        sort_by = 'timestamp'
+    if order not in ['asc', 'desc']:
+        order = 'desc'
+
+    # Create SQL query safely
+    query = f"SELECT attendance_id, employee_id, event_id, attended, timestamp FROM attendance ORDER BY {sort_by} {order.upper()}"
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    attendance_records = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Toggle order for next click
+    next_order = 'asc' if order == 'desc' else 'desc'
+
+    return render_template( 'attendance.html',
+        attendance=attendance_records,
+        sort_by=sort_by,
+        order=order,
+        next_order=next_order
+    )
+
+#Event list Page 
+@app.route("/events")
+def events_list():
+    sort_by=request.args.get('sort','event_date' )
+    order=request.args.get('order', 'desc')
+    valid_columns=['event_id', 'event_name', 'event_type', 'location', 'event_date']
+    if sort_by not in valid_columns:
+        sort_by='event_date'
+    if order not in ['asc', 'desc']:
+        order='asc'
+    query=f"SELECT event_id, event_name, event_type, event_date, location FROM events ORDER BY {sort_by} {order.upper()}"
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(query)
+    event_records = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    next_order='asc' if order=='desc' else 'desc'
+    return render_template('event.html', event=event_records, sort_by=sort_by, order=order, next_order=next_order)
 
 if __name__=='__main__':
     app.run(debug=True)
