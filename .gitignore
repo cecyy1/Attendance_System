@@ -1,5 +1,5 @@
 scripts/analysis.py
 venv/
 *.env
-
-
+models/database.py
+__pycache__/
