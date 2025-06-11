@@ -10,12 +10,26 @@
 <body class="bg-light">
     <div class="container mt-4"> <!-- container centers content; mt-4 adds margin-top for spacing -->
         <h1 class="mb-4">Employee Records</h1> <!-- big heading with bottom margin -->
+<<<<<<< HEAD
 
+=======
+       
+>>>>>>> 157e5ca (Initial clean commit without passwords)
         <!--button to add a new employee-->
         <a href="/" class="btn btn-secondary mb-3">Home</a>
          <a href="/events" class="btn btn-primary mb-3">Events</a>
          <a href="/attendance" class="btn btn-primary mb-3">Attendance</a>
+<<<<<<< HEAD
         <a href="/add-employee" class="btn btn-success mb-3">Add Employee</a>
+=======
+        <a href="/add-employee" class="btn btn-success mb-3">Add Employee</a> 
+        <!-- Search bar -->
+         <form method="get" action="/employees" class="mb-3">
+            <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search by name or department" value="{{ search_query }}">
+        <button type="submit" class="btn btn-outline-primary">Search</button> </div> </form>
+
+>>>>>>> 157e5ca (Initial clean commit without passwords)
 
         <!--display employee list -->
         <table class="table table-striped">

@@ -15,6 +15,16 @@
     <a href="/employees" class="btn btn-primary mb-3">Employees</a>
     <a href="/events" class="btn btn-primary mb-3">Events</a>
 
+<<<<<<< HEAD
+=======
+    <!-- Search bar -->
+    <form method="get" action="/attendance" class="mb-3 d-flex">
+        <input type="text" name="search" class="form-control me-2" placeholder="Search employee or event..." value="{{ search }}">
+        <button class="btn btn-outline-primary">Search</button>
+    </form>
+
+
+>>>>>>> 157e5ca (Initial clean commit without passwords)
     <!-- Table -->
     <table class="table table-striped">
         <thead>
@@ -38,6 +48,19 @@
         {% endfor %}
         </tbody>
     </table>
+<<<<<<< HEAD
+=======
+    <!-- Summary Box -->
+    {% if summary %}
+        <h3>Attendance Summary</h3>
+        <ul>
+            {% for name, stats in summary.items() %}
+                <li><strong>{{ name }}</strong>: {{ stats.present }} out of {{ stats.total }} attended</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+>>>>>>> 157e5ca (Initial clean commit without passwords)
 </div>
 </body>
 </html>
