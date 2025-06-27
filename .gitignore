@@ -1,4 +1,19 @@
-scripts/analysis.py
-venv/
-*.env
+# Python compiled files
 __pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Environment/config files
+*.env
+.env
+
+# Ignore specific analysis script
+scripts/analysis.py
+
+# Ignore the sensitive database connection file
+webapp/models/database.py
+
+# macOS system files
+.DS_Store
