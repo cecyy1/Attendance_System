@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: attendance-system
+    env: python
+    buildCommand: ""
+    startCommand: python app.py
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
