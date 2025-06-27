@@ -10,26 +10,20 @@
 <body class="bg-light">
     <div class="container mt-4"> <!-- container centers content; mt-4 adds margin-top for spacing -->
         <h1 class="mb-4">Employee Records</h1> <!-- big heading with bottom margin -->
-<<<<<<< HEAD
 
-=======
-       
->>>>>>> 157e5ca (Initial clean commit without passwords)
         <!--button to add a new employee-->
         <a href="/" class="btn btn-secondary mb-3">Home</a>
-         <a href="/events" class="btn btn-primary mb-3">Events</a>
-         <a href="/attendance" class="btn btn-primary mb-3">Attendance</a>
-<<<<<<< HEAD
-        <a href="/add-employee" class="btn btn-success mb-3">Add Employee</a>
-=======
+        <a href="/events" class="btn btn-primary mb-3">Events</a>
+        <a href="/attendance" class="btn btn-primary mb-3">Attendance</a>
         <a href="/add-employee" class="btn btn-success mb-3">Add Employee</a> 
+        
         <!-- Search bar -->
-         <form method="get" action="/employees" class="mb-3">
+        <form method="get" action="/employees" class="mb-3">
             <div class="input-group">
-        <input type="text" name="search" class="form-control" placeholder="Search by name or department" value="{{ search_query }}">
-        <button type="submit" class="btn btn-outline-primary">Search</button> </div> </form>
-
->>>>>>> 157e5ca (Initial clean commit without passwords)
+                <input type="text" name="search" class="form-control" placeholder="Search by name or department" value="{{ search_query }}">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </div>
+        </form>
 
         <!--display employee list -->
         <table class="table table-striped">
@@ -48,7 +42,7 @@
                     <td>{{ emp[0] }}</td> <!-- ID -->
                     <td>{{ emp[1] }} {{ emp[2] }}</td> <!-- First + Last name -->
                     <td>{{ emp[3] }}</td> <!-- Department -->
-                    <td>{{ emp[4] }}</td> <!-- Meal (or email) shown as role for now -->
+                    <td>{{ emp[4] }}</td> <!-- Email -->
                     <td>
                         <!-- Edit button -->
                         <a href="/edit-employee/{{ emp[0] }}" class="btn btn-warning btn-sm">Edit</a>
@@ -59,7 +53,6 @@
                                 Delete
                             </button>
                         </form>                        
-                        </a>
                     </td>
                 </tr>
                 {% endfor %}

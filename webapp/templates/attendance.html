@@ -2,65 +2,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Attendance Records</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
-<div class="container mt-4">
-    <h1 class="mb-4">Attendance Records</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Attendance Records</h1>
 
-    <!-- Navigation Buttons -->
-    <a href="/" class="btn btn-secondary mb-3">Home</a>
-    <a href="/employees" class="btn btn-primary mb-3">Employees</a>
-    <a href="/events" class="btn btn-primary mb-3">Events</a>
+        <!-- Navigation Buttons -->
+        <a href="/" class="btn btn-secondary mb-3">Home</a>
+        <a href="/employees" class="btn btn-primary mb-3">Employees</a>
+        <a href="/events" class="btn btn-primary mb-3">Events</a>
 
-<<<<<<< HEAD
-=======
-    <!-- Search bar -->
-    <form method="get" action="/attendance" class="mb-3 d-flex">
-        <input type="text" name="search" class="form-control me-2" placeholder="Search employee or event..." value="{{ search }}">
-        <button class="btn btn-outline-primary">Search</button>
-    </form>
+        <!-- Search bar -->
+        <form method="get" action="/attendance" class="mb-3 d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search employee or event..." value="{{ search }}" />
+            <button class="btn btn-outline-primary">Search</button>
+        </form>
 
+        <!-- Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><a href="{{ url_for('attendance_list', sort='attendance_id', order=next_order) }}">Attendance ID</a></th>
+                    <th><a href="{{ url_for('attendance_list', sort='employee_id', order=next_order) }}">Employee ID</a></th>
+                    <th><a href="{{ url_for('attendance_list', sort='event_id', order=next_order) }}">Event ID</a></th>
+                    <th><a href="{{ url_for('attendance_list', sort='attended', order=next_order) }}">Attended</a></th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for records in attendance %}
+                <tr>
+                    <td>{{ records[0] }}</td>
+                    <td>{{ records[1] }}</td>
+                    <td>{{ records[2] }}</td>
+                    <td>{{ 'Yes' if records[3] else 'No' }}</td>
+                    <td>{{ records[4] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
->>>>>>> 157e5ca (Initial clean commit without passwords)
-    <!-- Table -->
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th><a href="{{ url_for('attendance_list', sort='attendance_id', order=next_order) }}">Attendance ID</a></th>
-            <th><a href="{{ url_for('attendance_list', sort='employee_id', order=next_order) }}">Employee ID</a></th>
-            <th><a href="{{ url_for('attendance_list', sort='event_id', order=next_order) }}">Event ID</a></th>
-            <th><a href="{{ url_for('attendance_list', sort='attended', order=next_order) }}">Attended</a></th>
-            <th>Timestamp</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for records in attendance %}
-            <tr>
-                <td>{{ records[0] }}</td>
-                <td>{{ records[1] }}</td>
-                <td>{{ records[2] }}</td>
-                <td>{{ 'Yes' if records[3] else 'No' }}</td>
-                <td>{{ records[4] }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-<<<<<<< HEAD
-=======
-    <!-- Summary Box -->
-    {% if summary %}
+        <!-- Summary Box -->
+        {% if summary %}
         <h3>Attendance Summary</h3>
         <ul>
             {% for name, stats in summary.items() %}
-                <li><strong>{{ name }}</strong>: {{ stats.present }} out of {{ stats.total }} attended</li>
+            <li><strong>{{ name }}</strong>: {{ stats.present }} out of {{ stats.total }} attended</li>
             {% endfor %}
         </ul>
-    {% endif %}
-
->>>>>>> 157e5ca (Initial clean commit without passwords)
-</div>
+        {% endif %}
+    </div>
 </body>
 </html>

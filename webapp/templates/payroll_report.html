@@ -1,0 +1,93 @@
+<!-- templates/payroll_report.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payroll Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- jQuery for collapsible tables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Toggles visibility of each month's table
+        function toggleTable(monthId) {
+            $("#" + monthId).toggle();
+        }
+    </script>
+
+    <style>
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        th, td { border: 1px solid #999; padding: 8px; text-align: center; }
+        h2 { margin-top: 40px; color: #51555a; cursor: pointer; } /* Make month headings clickable */
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Payroll Report</h1>
+
+        <!-- Date filter form -->
+        <form method="get" action="/payroll-report" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="start" class="col-form-label">Start Date:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" id="start" name="start" class="form-control" required>
+                </div>
+                <div class="col-auto">
+                    <label for="end" class="col-form-label">End Date:</label>
+                </div>
+                <div class="col-auto">
+                    <input type="date" id="end" name="end" class="form-control" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Grouped payroll data by month/year -->
+        {% if grouped_payroll %}
+            {% for month_year, records in grouped_payroll.items() %}
+                <!-- Clickable header to toggle each month's payroll table -->
+                <h2 onclick="toggleTable('{{ month_year|replace(' ', '_') }}')">
+
+                    {{ month_year }} ▼
+                </h2>
+
+                <!-- Monthly payroll table (hidden by default) -->
+                <table id="{{ month_year|replace(' ', '_') }}" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Week Start</th>
+                            <th>Week End</th>
+                            <th>Total Hours</th>
+                            <th>Gross Pay</th>
+                            <th>Tax Deduction</th>
+                            <th>Net Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in records %}
+                        <tr>
+                            <td>{{ row[1] }}</td> <!-- full_name -->
+                            <td>{{ row[2].strftime('%m/%d') if row[2] else '' }}</td> <!-- week_start -->
+                            <td>{{ row[3].strftime('%m/%d') if row[3] else '' }}</td> <!-- week_end -->
+                            <td>{{ row[4] }}</td> <!-- total_hours -->
+                            <td>${{ "%.2f"|format(row[5]) }}</td> <!-- gross_pay -->
+                            <td>${{ "%.2f"|format(row[6]) }}</td> <!-- tax -->
+                            <td>${{ "%.2f"|format(row[7]) }}</td> <!-- net_pay -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% else %}
+            <p>No payroll data available for the selected period.</p>
+        {% endif %}
+
+        <!-- Link to return to home -->
+        <p><a href="/">Back to Home</a></p>
+    </div>
+</body>
+</html>

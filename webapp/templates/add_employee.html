@@ -2,53 +2,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Add Employee</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
     <div class="container mt-5">
         <h1 class="mb-4">Add New Employee</h1>
         <form method="POST">
-<<<<<<< HEAD
-            First Name: <input type="text" name="first_name"required><br>
-            Last Name: <input type="text" name="last_name" required><br>
-            Department: <input type="text" name="department" required><br>
-            Email: <input type="text" name="email"><br> 
-            Hire Date: <input type="date" name="hire_date" required><br>
-            <input type="submit" value="Add Employee">
-            <a href="{{ url_for('employee_list') }}" class="btn btn-secondary">Cancel</a>
-          </form>          
-=======
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name:</label>
-                <input type="text" class="form-control" name="first_name" id="first_name" required>
+                <input type="text" class="form-control" name="first_name" id="first_name" required />
             </div>
 
             <div class="mb-3">
                 <label for="last_name" class="form-label">Last Name:</label>
-                <input type="text" class="form-control" name="last_name" id="last_name" required>
+                <input type="text" class="form-control" name="last_name" id="last_name" required />
             </div>
 
             <div class="mb-3">
                 <label for="department" class="form-label">Department:</label>
-                <input type="text" class="form-control" name="department" id="department" required>
+                <input type="text" class="form-control" name="department" id="department" required />
             </div>
 
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" class="form-control" name="email" id="email">
+                <input type="email" class="form-control" name="email" id="email" />
             </div>
 
             <div class="mb-3">
                 <label for="hire_date" class="form-label">Hire Date:</label>
-                <input type="date" class="form-control" name="hire_date" id="hire_date" required>
+                <input type="date" class="form-control" name="hire_date" id="hire_date" required />
             </div>
 
             <button type="submit" class="btn btn-success">Add Employee</button>
-            <a href="{{ url_for('employee_list') }}" class="btn btn-secondary">Cancel</a>
-        </form>          
->>>>>>> 157e5ca (Initial clean commit without passwords)
+            <a href="{{ url_for('employee_list') }}" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
     </div>
 </body>
 </html>

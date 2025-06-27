@@ -1,0 +1,118 @@
+<!-- templates/admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #c6b1bc96, #e0f7ff);
+            font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-bar {
+            background-color: #446378;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-bar a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            padding: 60px 80px;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-panel {
+            flex: 1;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn-cute {
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 20px;
+            background-color: #5074ab;
+            color: white;
+            border: none;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-align: left;
+            text-decoration: none;
+
+        }
+
+
+        .btn-cute:hover {
+            background-color: #3a5483;
+            transform: scale(1.05);
+        }
+
+        .right-panel {
+            flex: 1;
+            max-width: 400px;
+            color: #5a3e4d;
+        }
+
+        .right-panel h2 {
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .right-panel p {
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <a href="{{ url_for('logout') }}">Sign Out</a>
+    </div>
+
+    <div class="main-content">
+        <!-- Buttons on the left -->
+        <div class="left-panel">
+            <a href="{{ url_for('employee_list') }}" class="btn-cute">👥 View Employees</a>
+            <a href="{{ url_for('attendance_list') }}" class="btn-cute">📅 View Attendance</a>
+            <a href="{{ url_for('events_list') }}" class="btn-cute">📌 View Events</a>
+            <a href="{{ url_for('time_logs') }}" class="btn-cute">⏰ Clock In/Out Logs</a>
+            <a href="{{ url_for('work_hours_summary') }}" class="btn-cute">📊 Work Hours Summary</a>
+        </div>
+
+        <!-- Welcome message on the right -->
+        <div class="right-panel">
+            <h2>Welcome to the Admin Dashboard</h2>
+            <p>Hello <strong>{{ company_name|title }}</strong>, here's your dashboard overview.</p>
+        </div>
+    </div>
+
+</body>
+</html>

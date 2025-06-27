@@ -2,62 +2,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Attendance Records</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8" />
+    <title>Event Records</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="bg-light">
-<div class="container mt-4">
-    <h1 class="mb-4">Event Records</h1>
+    <div class="container mt-4">
+        <h1 class="mb-4">Event Records</h1>
 
-    <!-- Navigation Buttons -->
-    <a href="/" class="btn btn-secondary mb-3">Home</a>
-    <a href="/employees" class="btn btn-primary mb-3">Employees</a>
-    <a href="/attendance" class="btn btn-primary mb-3">Attendance</a>
-    <a href="/add-event" class="btn btn-success mb-3">Add Event</a>
+        <!-- Navigation Buttons -->
+        <a href="/" class="btn btn-secondary mb-3">Home</a>
+        <a href="/employees" class="btn btn-primary mb-3">Employees</a>
+        <a href="/attendance" class="btn btn-primary mb-3">Attendance</a>
+        <a href="/add-event" class="btn btn-success mb-3">Add Event</a>
 
-<<<<<<< HEAD
-=======
-    <form method="get" action="/events" class="mb-3 d-flex">
-        <input type="text" name="search" class="form-control me-2" placeholder="Search events..." value="{{ search_query }}">
-        <button class="btn btn-outline-primary">Search</button>
-      </form>
-      
-    
+        <!-- Search bar -->
+        <form method="get" action="/events" class="mb-3 d-flex">
+            <input type="text" name="search" class="form-control me-2" placeholder="Search events..." value="{{ search_query }}" />
+            <button class="btn btn-outline-primary">Search</button>
+        </form>
 
->>>>>>> 157e5ca (Initial clean commit without passwords)
-    <!-- Table -->
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th><a href="{{ url_for('events_list', sort='event_id', order=next_order) }}">Event ID</a></th>
-            <th><a href="{{ url_for('events_list', sort='event_name', order=next_order) }}">Event Name</a></th>
-            <th><a href="{{ url_for('events_list', sort='event_type', order=next_order) }}">Event Type</a></th>
-            <th><a href="{{ url_for('events_list', sort='event_date', order=next_order) }}">Event Date</a></th>
-            <th><a href="{{ url_for('events_list', sort='location', order=next_order) }}">Location</a></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for records in event %}
-        <tr>
-            <td>{{ records[0] }}</td>
-            <td>{{ records[1] }}</td>
-            <td>{{ records[2] }}</td>
-            <td>{{ records[3] }}</td>
-            <td>{{ records[4] }}</td>
-            <td>
-                <a href="/edit-event/{{ records[0] }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="/delete-event/{{ records[0] }}" method="POST" style="display:inline;">
-                    <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="return confirm('Are you sure you want to delete this event?');">
-                        Delete
-                    </button>
-                </form>
-            </td>
-        </tr>        
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+        <!-- Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><a href="{{ url_for('events_list', sort='event_id', order=next_order) }}">Event ID</a></th>
+                    <th><a href="{{ url_for('events_list', sort='event_name', order=next_order) }}">Event Name</a></th>
+                    <th><a href="{{ url_for('events_list', sort='event_type', order=next_order) }}">Event Type</a></th>
+                    <th><a href="{{ url_for('events_list', sort='event_date', order=next_order) }}">Event Date</a></th>
+                    <th><a href="{{ url_for('events_list', sort='location', order=next_order) }}">Location</a></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for records in event %}
+                <tr>
+                    <td>{{ records[0] }}</td>
+                    <td>{{ records[1] }}</td>
+                    <td>{{ records[2] }}</td>
+                    <td>{{ records[4] }}</td>  <!-- event_date -->
+                    <td>{{ records[3] }}</td>  <!-- location -->
+                    <td>
+                        <a href="/edit-event/{{ records[0] }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="/delete-event/{{ records[0] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    </div>
 </body>
 </html>
