@@ -20,7 +20,6 @@ import os
 
 app = Flask(__name__)
 # --- Security Settings ---
-# Use an environment variable for the secret key (never hardcode in production!)
 app.secret_key = os.environ.get('SECRET_KEY', 'dev_secret_key')
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
@@ -597,8 +596,8 @@ def admin_login():
 @app.route("/logout")
 @login_required
 def logout():
-    logout_user()  # from flask_login
-    return redirect(url_for('home'))  # or the name of your homepage route
+    logout_user()  
+    return redirect(url_for('home'))  
 
 @app.route("/admin-dashboard")
 @login_required
