@@ -11,13 +11,30 @@ from flask_login import login_user
 import hashlib 
 from flask_login import logout_user, login_required
 from flask_login import current_user
+from flask_bcrypt import Bcrypt
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from models.database import get_db_connection
+import os
 
 
 app = Flask(__name__)
-app.secret_key="SupersecretKey"
+# --- Security Settings ---
+# Use an environment variable for the secret key (never hardcode in production!)
+app.secret_key = os.environ.get('SECRET_KEY', 'dev_secret_key')
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SECURE=False,  # Set to True in production with HTTPS
+    SESSION_COOKIE_SAMESITE='Lax'
+)
+
+# --- Extensions ---
+bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'admin_login'  # redirect if not logged in
+login_manager.login_view = 'admin_login'
+limiter = Limiter(key_func=get_remote_address)
+limiter.init_app(app)
 
 @app.route("/")
 def home():
@@ -509,25 +526,22 @@ def admin_register():
             conn.close()
             return render_template("admin_register.html")
 
-        # Check if company exists
+        # Check if company exists, else create it
         cursor.execute("SELECT company_id FROM companies WHERE company_name = %s", (company_name,))
-
         company = cursor.fetchone()
-
         if company:
             company_id = company[0]
         else:
-            # Insert new company
             cursor.execute("INSERT INTO companies (company_name) VALUES (%s)", (company_name,))
-
             company_id = cursor.lastrowid
 
-        # Hash password
-        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        # Hash password with bcrypt
+        password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
-        # Insert new admin with company_id
-        cursor.execute("INSERT INTO admins (username, password_hash, company_id) VALUES (%s, %s, %s)",
-                       (username, password_hash, company_id))
+        cursor.execute(
+            "INSERT INTO admins (username, password_hash, company_id) VALUES (%s, %s, %s)",
+            (username, password_hash, company_id)
+        )
 
         conn.commit()
         conn.close()
@@ -536,7 +550,6 @@ def admin_register():
         return redirect(url_for("admin_login"))
 
     return render_template("admin_register.html")
-
 
 #flask-login 
 class Admin(UserMixin):
@@ -559,6 +572,7 @@ def load_user(admin_id):
     return None
 
 @app.route("/admin-login", methods=["GET", "POST"])
+@limiter.limit("5 per minute")  # 5 login attempts per minute per IP
 def admin_login():
     if request.method == "POST":
         username = request.form["username"]
@@ -570,15 +584,13 @@ def admin_login():
         row = cursor.fetchone()
         conn.close()
 
-        if row:
-            hashed_input = hashlib.sha256(password.encode()).hexdigest()
-            if hashed_input == row[2]:  # compare hashes
-                admin = Admin(id=row[0], username=row[1], password_hash=row[2], company_id=row[3])
-                login_user(admin)
-                return redirect(url_for("admin_dashboard"))
+        if row and bcrypt.check_password_hash(row[2], password):
+            admin = Admin(id=row[0], username=row[1], password_hash=row[2], company_id=row[3])
+            login_user(admin)
+            return redirect(url_for("admin_dashboard"))
 
-        flash("Invalid credentials.", "danger")
-    
+        flash("Invalid username or password.", "danger")
+
     return render_template("admin_login.html")
 
 #logging out -sign out 
